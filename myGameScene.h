@@ -2,8 +2,10 @@
 #include "myBaseScene.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemySpawn.h"
 
-const int enemyMAX = 8;
+const int enemyMAX = 20;
+const int spawnMAX = 4;
 
 class myGameScene : public BaseScene
 {
@@ -16,6 +18,7 @@ public:
 private:
 	Player* player;
 	Enemy* enemy[enemyMAX];
+	EnemySpawn* enemySpawn[spawnMAX];
 
 	int enemyCount_;
 };

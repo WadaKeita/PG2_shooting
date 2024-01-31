@@ -17,7 +17,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
-
+	
 	/*Vector2 a{ 2.0f,1.0f }, b{ 2.0f,1.0f };
 
 	Vector2 c;

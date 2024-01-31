@@ -2,6 +2,8 @@
 class BaseScene
 {
 public:
+	BaseScene();
+	~BaseScene();
 	virtual void Update(char* keys, char* preKeys);
 	virtual void Draw();
 

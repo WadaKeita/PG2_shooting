@@ -1,5 +1,4 @@
 #pragma once
-#include "Vector2d.h"
 #include "Object.h"
 
 class Bullet : public Object

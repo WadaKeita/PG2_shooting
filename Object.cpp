@@ -1,5 +1,19 @@
 #include "Object.h"
 
+Object::Object() {
+
+	pos_ = { 0 };
+	velocity_ = { 0 };
+	acceleration_ = { 0 };
+	speed_ = { 0 };
+	radius_ = { 0 };
+	isAlive_ = false;
+}
+
+Object::~Object() {
+
+}
+
 void Object::Move() {
 
 }

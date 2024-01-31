@@ -11,6 +11,8 @@ SceneManager::SceneManager() {
 	currentScene = new TitleScene;
 	nowScene = kTITLE;
 	nextScene = kTITLE;
+	changeTime = 100;
+	changeTimer = 0;
 }
 
 SceneManager::~SceneManager() {

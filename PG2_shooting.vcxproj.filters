@@ -77,6 +77,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>System\Object</Filter>
     </ClCompile>
+    <ClCompile Include="EnemySpawn.cpp">
+      <Filter>System\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -182,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawn.h">
+      <Filter>System\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

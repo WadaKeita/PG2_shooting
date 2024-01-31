@@ -13,6 +13,11 @@ protected:
 	bool isAlive_;
 
 public:
+	Vector2 distance_;
+	float length_;
+
+	Object();
+	~Object();
 	virtual void Move();
 	virtual void Draw();
 	

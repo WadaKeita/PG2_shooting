@@ -13,7 +13,8 @@ Player::Player() {
 	radius_ = 16;
 	speed_ = { 2,2 };
 	isAlive_ = true;
-	tmpDirection_ = { 0,0 };
+	direction_ = { 0,-1 };
+	tmpDirection_ = { 0,-1 };
 };
 
 Player::~Player() {
@@ -48,44 +49,17 @@ void Player::Move(char* keys, char* preKeys) {
 		}
 
 
-
-		/*if (keys[DIK_A] && keys[DIK_D]) {
-			direction_.x_ = 0;
-		}
-		if (keys[DIK_W] && keys[DIK_S]) {
-			direction_.y_ = 0;
-		}*/
-
-		float length = sqrtf(tmpDirection_.x_ * tmpDirection_.x_ + tmpDirection_.y_ * tmpDirection_.y_);
-		if (length != 0.0f) {
-			tmpDirection_.x_ = (tmpDirection_.x_ / length);
-			tmpDirection_.y_ = (tmpDirection_.y_ / length);
+		length_ = sqrtf(tmpDirection_.x_ * tmpDirection_.x_ + tmpDirection_.y_ * tmpDirection_.y_);
+		if (length_ != 0.0f) {
+			tmpDirection_.x_ = (tmpDirection_.x_ / length_);
+			tmpDirection_.y_ = (tmpDirection_.y_ / length_);
 		}
 
-		if (tmpDirection_ != Vector2(0, 0)) {
+		if (tmpDirection_ != (0.0f, 0.0f)) {
 			direction_ = tmpDirection_;
 		}
 
-
-		/*if (keys[DIK_W] || keys[DIK_UP]) {
-			direction_ = { 0,-1 };
-		}
-		if (keys[DIK_A] || keys[DIK_LEFT]) {
-			direction_ = { -1,0 };
-		}
-		if (keys[DIK_S] || keys[DIK_DOWN]) {
-			direction_ = { 0,1 };
-		}
-		if (keys[DIK_D] || keys[DIK_RIGHT]) {
-			direction_ = { 1,0 };
-		}*/
-
-		if (keys[DIK_W] || keys[DIK_UP] || keys[DIK_A] || keys[DIK_LEFT] || keys[DIK_S] || keys[DIK_DOWN] || keys[DIK_D] || keys[DIK_RIGHT]) {
-			velocity_ = tmpDirection_ * speed_;
-		}
-		else {
-			velocity_ = { 0,0 };
-		}
+		velocity_ = tmpDirection_ * speed_;
 
 		pos_ += velocity_;
 
@@ -102,26 +76,31 @@ void Player::Move(char* keys, char* preKeys) {
 			pos_.y_ = 720 - radius_;
 		}
 
-		if (keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0) {
-
-			for (int i = 0; i < bulletMax_; i++) {
-
-				if (bullet_[i]->GetIsAlive() == false) {
-					
-					bullet_[i]->SetVelocity(direction_ * bullet_[i]->GetSpeed());
-
-					bullet_[i]->SetIsAlive(true);
-					bullet_[i]->SetPos(pos_);
-
-					break;
-				}
-			}
-		}
+		Attack(keys, preKeys);
 
 		for (int i = 0; i < bulletMax_; i++) {
 
 			bullet_[i]->Move();
 
+		}
+	}
+}
+
+void Player::Attack(char* keys, char* preKeys) {
+
+	if (keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0) {
+
+		for (int i = 0; i < bulletMax_; i++) {
+
+			if (bullet_[i]->GetIsAlive() == false) {
+
+				bullet_[i]->SetVelocity(direction_ * bullet_[i]->GetSpeed());
+
+				bullet_[i]->SetIsAlive(true);
+				bullet_[i]->SetPos(pos_);
+
+				break;
+			}
 		}
 	}
 }
@@ -134,7 +113,7 @@ void Player::Draw() {
 
 	}
 
-	Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, 0xFFFFFFFF, kFillModeSolid);
+	Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, BLUE, kFillModeSolid);
 
 }
 
