@@ -18,14 +18,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 	
-	/*Vector2 a{ 2.0f,1.0f }, b{ 2.0f,1.0f };
-
-	Vector2 c;
-
-	c = { 2.0f,3.0f };
-
-	Player* player = new Player(100.0f,100.0f);*/
-
 	//randをリセット
 	unsigned int currentTime = (unsigned)time(NULL);
 	srand(currentTime);
