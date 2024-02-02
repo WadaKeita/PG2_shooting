@@ -14,13 +14,18 @@ public:
 	
 	void ChangeScene(SCENE scene);
 	void Update(char*keys,char*preKeys);
+	void Draw();
 	void Render();
+	void SceneTransition();
 
 private:
 	static BaseScene* currentScene;
 
-	int changeTime;
-	int changeTimer;
+	int transitionTime;
+	int transitionTimer;
+	bool isTransition;
+
+	unsigned int color_;
 
 	SCENE nextScene;
 	SCENE nowScene;

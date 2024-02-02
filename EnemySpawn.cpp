@@ -51,6 +51,15 @@ void EnemySpawn::Draw() {
 	}
 }
 
+void EnemySpawn::OnCollision() {
+	if (HP_ > 0) {
+		HP_--;
+	}
+	if (HP_ <= 0) {
+		isAlive_ = false;
+	}
+}
+
 void EnemySpawn::SetPos(Vector2 pos) {
 	pos_ = pos;
 }

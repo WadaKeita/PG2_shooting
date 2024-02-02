@@ -9,6 +9,7 @@ public:
 
 	void Move();
 	void Draw();
+	void OnCollision();
 
 	Vector2 GetPos() { return pos_; }
 	void SetPos(Vector2 pos);

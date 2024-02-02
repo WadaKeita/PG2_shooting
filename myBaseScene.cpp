@@ -14,6 +14,6 @@ void BaseScene::Update(char* keys, char* preKeys) {
 };
 
 void BaseScene::Draw() {
-
+	
 };
 

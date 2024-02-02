@@ -20,6 +20,7 @@ public:
 	~Object();
 	virtual void Move();
 	virtual void Draw();
+	virtual void OnCollision();
 	
 	Vector2 GetPos() { return pos_; }
 	void SetPos(Vector2 vec2);

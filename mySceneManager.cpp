@@ -2,17 +2,17 @@
 #include "myTitleScene.h"
 #include "myGameScene.h"
 #include "myResultScene.h"
-#include "stdio.h"
 #include "Novice.h"
 
-BaseScene* SceneManager::currentScene = NULL;
+BaseScene* SceneManager::currentScene = nullptr;
 
 SceneManager::SceneManager() {
 	currentScene = new TitleScene;
 	nowScene = kTITLE;
 	nextScene = kTITLE;
-	changeTime = 100;
-	changeTimer = 0;
+	transitionTime = 100;
+	transitionTimer = 0;
+	isTransition = false;
 }
 
 SceneManager::~SceneManager() {
@@ -21,7 +21,7 @@ SceneManager::~SceneManager() {
 
 void SceneManager::ChangeScene(SCENE scene) {
 
-	if (currentScene != NULL) {
+	if (currentScene != nullptr) {
 		delete currentScene;
 	}
 
@@ -46,35 +46,52 @@ void SceneManager::ChangeScene(SCENE scene) {
 
 void SceneManager::Update(char* keys, char* preKeys) {
 
+	SceneTransition();	
 
-	nextScene = SCENE(currentScene->SwitchScene());
-	if (nowScene != nextScene) {
-		ChangeScene(nextScene);
-		nowScene = nextScene;
-	}
+	if (currentScene != nullptr) {
 
+		if (isTransition == false) {
+			currentScene->Update(keys, preKeys);
+		}
 
-	if (keys[DIK_1] && preKeys[DIK_1] == false) {
-		ChangeScene(kTITLE);
-		nowScene = kTITLE;
 	}
-	else if (keys[DIK_2] && preKeys[DIK_2] == false) {
-		ChangeScene(kGAME);
-		nowScene = kGAME;
-	}
-	else if (keys[DIK_3] && preKeys[DIK_3] == false) {
-		ChangeScene(kRESULT);
-		nowScene = kRESULT;
-	}
+}
 
-	if (currentScene != NULL) {
-		currentScene->Update(keys,preKeys);
-	}
+void SceneManager::Draw() {
+
+	Novice::DrawBox(0, 0, 720, 720, 0, color_, kFillModeSolid);
+
 }
 
 void SceneManager::Render() {
 
-	if (currentScene != NULL) {
+	if (currentScene != nullptr) {
 		currentScene->Draw();
+	}
+}
+
+void SceneManager::SceneTransition() {
+
+	nextScene = SCENE(currentScene->SwitchScene());
+	if (nowScene != nextScene) {
+
+		isTransition = true;
+		transitionTimer++;
+		if (transitionTimer == transitionTime / 2) {
+
+			ChangeScene(nextScene);
+
+		}
+
+
+		if (transitionTimer >= transitionTime) {
+
+			transitionTimer = 0;
+			nowScene = nextScene;
+			isTransition = false;
+		}
+		else {
+			color_ -= 
+		}
 	}
 }

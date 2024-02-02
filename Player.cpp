@@ -113,8 +113,9 @@ void Player::Draw() {
 
 	}
 
-	Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, BLUE, kFillModeSolid);
-
+	if (isAlive_ == true) {
+		Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, BLUE, kFillModeSolid);
+	}
 }
 
 void Player::SetDirection(Vector2 direction) {

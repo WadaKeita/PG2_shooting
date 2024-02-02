@@ -50,7 +50,7 @@ myGameScene::myGameScene() {
 					enemy[i]->distance_.x_ = enemy[i]->distance_.x_ / enemy[i]->length_ * enemy[i]->GetSpeed().x_;
 					enemy[i]->distance_.y_ = enemy[i]->distance_.y_ / enemy[i]->length_ * enemy[i]->GetSpeed().y_;
 				}
-				enemy[i]->SetVelocity({enemy[i]->distance_.x_, enemy[i]->distance_.y_});
+				enemy[i]->SetVelocity({ enemy[i]->distance_.x_, enemy[i]->distance_.y_ });
 			}
 			else {
 				break;
@@ -87,7 +87,7 @@ myGameScene::~myGameScene() {
 
 void myGameScene::Update(char* keys, char* preKeys) {
 
-	if (enemyCount_ > 0) {
+	if (enemyCount_ > 0 && player->GetIsAlive() == true) {
 		player->Move(keys, preKeys);
 
 
@@ -140,7 +140,8 @@ void myGameScene::Update(char* keys, char* preKeys) {
 			enemy[i]->Move();
 		}
 
-		// 当たり判定
+		// -------------------------------- 当たり判定 -------------------------------- //
+		// 敵と弾
 		for (int i = 0; i < enemyMAX; i++) {
 
 			if (enemy[i]->GetIsAlive() == true) {
@@ -149,21 +150,24 @@ void myGameScene::Update(char* keys, char* preKeys) {
 
 					if (player->bullet_[j]->GetIsAlive() == true) {
 
-						Vector2 distance = enemy[i]->GetPos() - player->bullet_[j]->GetPos();
-						float distance_c = sqrtf(distance.x_ * distance.x_ + distance.y_ * distance.y_);
+						player->bullet_[j]->distance_ = enemy[i]->GetPos() - player->bullet_[j]->GetPos();
+						player->bullet_[j]->length_ = sqrtf(player->bullet_[j]->distance_.x_ * player->bullet_[j]->distance_.x_ + player->bullet_[j]->distance_.y_ * player->bullet_[j]->distance_.y_);
 
-						if (distance_c <= enemy[i]->GetRadius() + player->bullet_[j]->GetRadius()) {
-							enemy[i]->SetIsAlive(false);
+						if (player->bullet_[j]->length_ <= enemy[i]->GetRadius() + player->bullet_[j]->GetRadius()) {
+							
+							enemy[i]->OnCollision();
+							
 							enemyCount_--;
-							player->bullet_[j]->SetIsAlive(false);
+							
+							player->bullet_[j]->OnCollision();
 						}
 					}
 				}
 			}
 		}
+		// スポナーと弾
+		for (int i = 0; i < spawnMAX; i++) {
 
-		for (int i = 0; i < spawnMAX; i++){
-			
 			if (enemySpawn[i]->GetIsAlive() == true) {
 
 				for (int j = 0; j < bulletMax_; j++) {
@@ -174,13 +178,12 @@ void myGameScene::Update(char* keys, char* preKeys) {
 						player->bullet_[j]->length_ = sqrtf(player->bullet_[j]->distance_.x_ * player->bullet_[j]->distance_.x_ + player->bullet_[j]->distance_.y_ * player->bullet_[j]->distance_.y_);
 
 						if (player->bullet_[j]->length_ < enemySpawn[i]->GetRadius() + player->bullet_[j]->GetRadius()) {
-							player->bullet_[j]->SetIsAlive(false);
 
-							if (enemySpawn[i]->GetHP() > 0) {
-								enemySpawn[i]->SetHP(enemySpawn[i]->GetHP() - 1);
-							}
-							if (enemySpawn[i]->GetHP() <= 0) {
-								enemySpawn[i]->SetIsAlive(false);
+							player->bullet_[j]->OnCollision();
+
+							enemySpawn[i]->OnCollision();
+
+							if (enemySpawn[i]->GetIsAlive() == false) {
 								enemyCount_--;
 							}
 						}
@@ -188,9 +191,28 @@ void myGameScene::Update(char* keys, char* preKeys) {
 				}
 			}
 		}
+		// プレイヤーと敵
+		for (int i = 0; i < enemyMAX; i++) {
+
+			if (enemy[i]->GetIsAlive() == true) {
+
+				if (player->GetIsAlive() == true) {
+
+					player->distance_ = enemy[i]->GetPos() - player->GetPos();
+					player->length_ = sqrtf(player->distance_.x_ * player->distance_.x_ + player->distance_.y_ * player->distance_.y_);
+
+					if (player->length_ <= enemy[i]->GetRadius() + player->GetRadius()) {
+
+						player->OnCollision();
+					}
+				}
+			}
+
+		}
+		// -------------------------------- 当たり判定 -------------------------------- //
 
 	}
-	else if (enemyCount_ <= 0) {
+	else if (enemyCount_ <= 0 || player->GetIsAlive() == false) {
 
 		if (keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0) {
 			nextScene_ = 2;

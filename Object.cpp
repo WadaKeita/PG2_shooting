@@ -22,6 +22,12 @@ void Object::Draw() {
 
 }
 
+void Object::OnCollision() {
+
+	isAlive_ = false;
+		
+}
+
 void Object::SetPos(Vector2 vec2) {
 	pos_ = vec2;
 }
