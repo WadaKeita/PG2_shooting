@@ -59,11 +59,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		sceneManager->Render();
 
-		/*Novice::ScreenPrintf(0, 0, "a[x = %.2f y = %.2f]", a.x_, a.y_);
-		Novice::ScreenPrintf(0, 20, "b[x = %.2f y = %.2f]", b.x_, b.y_);
-		Novice::ScreenPrintf(0, 40, "c[x = %.2f y = %.2f]", player->pos_.x_, player->pos_.y_);*/
-
-
 
 		///
 		/// ↑描画処理ここまで

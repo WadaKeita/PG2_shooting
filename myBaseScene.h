@@ -7,8 +7,19 @@ public:
 	virtual void Update(char* keys, char* preKeys);
 	virtual void Draw();
 
-	int SwitchScene() { return nextScene_; }
+	int GetNextScene() { return nextScene_; }
+	int GetResult() { return result_; }
+	void SetResult(int result);
+
+protected:
+	enum RESULT {
+		kERROR,
+		kGAMECLEAR,
+		kGAMEOVER,
+	};
 
 	int nextScene_;
+	RESULT result_;
+
 };
 

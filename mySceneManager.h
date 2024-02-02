@@ -29,5 +29,7 @@ private:
 
 	SCENE nextScene;
 	SCENE nowScene;
+	
+	int result_;
 };
 

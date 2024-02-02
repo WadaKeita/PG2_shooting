@@ -13,6 +13,7 @@ SceneManager::SceneManager() {
 	transitionTime = 100;
 	transitionTimer = 0;
 	isTransition = false;
+	color_ = 0x00000000;
 }
 
 SceneManager::~SceneManager() {
@@ -20,6 +21,8 @@ SceneManager::~SceneManager() {
 }
 
 void SceneManager::ChangeScene(SCENE scene) {
+
+	result_ = currentScene->GetResult();
 
 	if (currentScene != nullptr) {
 		delete currentScene;
@@ -36,6 +39,7 @@ void SceneManager::ChangeScene(SCENE scene) {
 
 	case kRESULT:
 		currentScene = new ResultScene();
+		currentScene->SetResult(result_);
 		break;
 
 	default:
@@ -46,7 +50,7 @@ void SceneManager::ChangeScene(SCENE scene) {
 
 void SceneManager::Update(char* keys, char* preKeys) {
 
-	SceneTransition();	
+	SceneTransition();
 
 	if (currentScene != nullptr) {
 
@@ -68,11 +72,13 @@ void SceneManager::Render() {
 	if (currentScene != nullptr) {
 		currentScene->Draw();
 	}
+
+	Draw();
 }
 
 void SceneManager::SceneTransition() {
 
-	nextScene = SCENE(currentScene->SwitchScene());
+	nextScene = SCENE(currentScene->GetNextScene());
 	if (nowScene != nextScene) {
 
 		isTransition = true;
@@ -89,9 +95,15 @@ void SceneManager::SceneTransition() {
 			transitionTimer = 0;
 			nowScene = nextScene;
 			isTransition = false;
+			color_ = 0x00000000;
 		}
 		else {
-			color_ -= 
+			if (transitionTimer > transitionTime / 2) {
+				color_ -= 0x000000FF / (transitionTime / 2);
+			}
+			else {
+				color_ += 0x000000FF / (transitionTime / 2);
+			}
 		}
 	}
 }

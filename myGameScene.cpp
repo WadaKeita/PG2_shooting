@@ -6,6 +6,7 @@
 myGameScene::myGameScene() {
 
 	nextScene_ = 1;
+	result_ = kERROR;
 
 	enemyCount_ = 0;
 
@@ -154,11 +155,11 @@ void myGameScene::Update(char* keys, char* preKeys) {
 						player->bullet_[j]->length_ = sqrtf(player->bullet_[j]->distance_.x_ * player->bullet_[j]->distance_.x_ + player->bullet_[j]->distance_.y_ * player->bullet_[j]->distance_.y_);
 
 						if (player->bullet_[j]->length_ <= enemy[i]->GetRadius() + player->bullet_[j]->GetRadius()) {
-							
+
 							enemy[i]->OnCollision();
-							
+
 							enemyCount_--;
-							
+
 							player->bullet_[j]->OnCollision();
 						}
 					}
@@ -209,10 +210,41 @@ void myGameScene::Update(char* keys, char* preKeys) {
 			}
 
 		}
+		// プレイヤーとスポナー
+		for (int i = 0; i < spawnMAX; i++) {
+
+			if (enemySpawn[i]->GetIsAlive() == true) {
+
+				for (int j = 0; j < bulletMax_; j++) {
+
+					if (player->GetIsAlive() == true) {
+
+						player->distance_ = enemySpawn[i]->GetPos() - player->GetPos();
+						player->length_ = sqrtf(player->distance_.x_ * player->distance_.x_ + player->distance_.y_ * player->distance_.y_);
+
+						if (player->length_ < enemySpawn[i]->GetRadius() + player->GetRadius()) {
+
+							player->OnCollision();
+
+						}
+					}
+				}
+			}
+		}
 		// -------------------------------- 当たり判定 -------------------------------- //
 
 	}
 	else if (enemyCount_ <= 0 || player->GetIsAlive() == false) {
+
+
+		if (enemyCount_ <= 0 && result_ == kERROR) {
+
+			result_ = kGAMECLEAR;
+		}
+		else if (player->GetIsAlive() == false && result_ == kERROR) {
+
+			result_ = kGAMEOVER;
+		}
 
 		if (keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0) {
 			nextScene_ = 2;
@@ -235,9 +267,15 @@ void myGameScene::Draw() {
 
 	if (enemyCount_ <= 0) {
 
-		Novice::ScreenPrintf(0, 20, "Clear");
+		Novice::ScreenPrintf(720 / 2 - 10 * 10 + 5, 720 / 2 - 20, "defeated all enemies!");
+		Novice::ScreenPrintf(720 / 2 - 10 * 10 + 5, 720 / 2, "      - SPACE -      ");
+	}
+	else if (player->GetIsAlive() == false) {
+
+		Novice::ScreenPrintf(720 / 2 - 4 * 10 + 5, 720 / 2 - 20, "you died");
+		Novice::ScreenPrintf(720 / 2 - 4 * 10 , 720 / 2, "- SPACE -");
+
 	}
 
-
-	Novice::ScreenPrintf(0, 0, "Game");
+	Novice::ScreenPrintf(0, 0, "GameScene");
 }

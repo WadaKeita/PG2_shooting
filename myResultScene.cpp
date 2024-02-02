@@ -19,5 +19,19 @@ void ResultScene::Update(char* keys, char* preKeys) {
 
 void ResultScene::Draw() {
 
-	Novice::ScreenPrintf(0, 0, "Result");
+	Novice::ScreenPrintf(0, 0, "ResultScene");
+
+	switch (result_) {
+	case kGAMECLEAR:
+
+		Novice::ScreenPrintf(720 / 2 - 10 * 10 + 5, 720 / 2 - 10, "      GameClear      ");
+
+		break;
+
+	case kGAMEOVER:
+
+		Novice::ScreenPrintf(720 / 2 - 4 * 12, 720 / 2 - 10, "  GameOver");
+
+		break;
+	}
 }

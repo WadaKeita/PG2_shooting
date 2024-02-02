@@ -15,7 +15,9 @@ public:
 	void Update(char* keys, char* preKeys)override;
 	void Draw()override;
 
+
 private:
+
 	Player* player;
 	Enemy* enemy[enemyMAX];
 	EnemySpawn* enemySpawn[spawnMAX];

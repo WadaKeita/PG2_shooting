@@ -44,7 +44,7 @@ void Enemy::Draw() {
 
 	if (isAlive_ == true) {
 
-		Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, 0xFFFFFFFF, kFillModeSolid);
+		Novice::DrawEllipse(int(pos_.x_), int(pos_.y_), int(radius_), int(radius_), 0, 0x303030FF, kFillModeSolid);
 
 	}
 }

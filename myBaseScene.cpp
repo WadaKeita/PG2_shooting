@@ -2,6 +2,7 @@
 
 BaseScene::BaseScene() {
 	nextScene_ = 0;
+	result_ = kERROR;
 }
 
 BaseScene::~BaseScene() {
@@ -17,3 +18,7 @@ void BaseScene::Draw() {
 	
 };
 
+void BaseScene::SetResult(int result) {
+
+	result_ = RESULT(result);
+}

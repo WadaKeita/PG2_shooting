@@ -20,5 +20,7 @@ void TitleScene::Update(char* keys, char* preKeys) {
 
 void TitleScene::Draw() {
 
-	Novice::ScreenPrintf(0, 0, "Title");
+	Novice::ScreenPrintf(0, 0, "TitleScene");
+
+	Novice::ScreenPrintf(720 / 2 - 10 * 10 + 5, 720 / 2 - 10, "   start to SPACE    ");
 }
